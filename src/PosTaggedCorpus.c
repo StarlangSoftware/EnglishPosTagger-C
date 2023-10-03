@@ -12,7 +12,7 @@
 #include "PosTaggedWord.h"
 
 /**
- * Another constructor of {@link PosTaggedCorpus} which takes a fileName of the corpus as an input, reads the
+ * Another constructor of PosTaggedCorpus which takes a fileName of the corpus as an input, reads the
  * corpus from that file.
  *
  * @param fileName Name of the corpus file.
@@ -75,7 +75,7 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
 }
 
 /**
- * A constructor of {@link PosTaggedCorpus} which initializes the sentences of the corpus, the word list of
+ * A constructor of PosTaggedCorpus which initializes the sentences of the corpus, the word list of
  * the corpus, and all possible tags.
  */
 Pos_tagged_corpus_ptr create_pos_tagged_corpus2() {
