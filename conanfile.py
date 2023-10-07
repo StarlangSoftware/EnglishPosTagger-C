@@ -8,7 +8,7 @@ class PosTaggerConan(ConanFile):
     license = "GPL License"
     author = "Olcay Taner Yildiz olcay.yildiz@ozyegin.edu.tr"
     url = "https://github.com/StarlangSoftware/PosTagger-C"
-    description = "NGram Library"
+    description = "English Part of Speech Tagger Library"
     topics = ("")
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
