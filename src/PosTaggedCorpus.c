@@ -18,14 +18,11 @@
  * @param fileName Name of the corpus file.
  */
 Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
-    char line[MAX_LINE_LENGTH];
     Sentence_ptr new_sentence = create_sentence();
     Pos_tagged_corpus_ptr result = create_pos_tagged_corpus2();
-    FILE* input_file;
-    input_file = fopen(file_name, "r");
-    char* input = fgets(line, MAX_LINE_LENGTH, input_file);
-    while (input != NULL){
-        line[strcspn(line, "\n")] = 0;
+    Array_list_ptr lines = read_lines(file_name);
+    for (int j = 0; j < lines->size; j++){
+        char* line = array_list_get(lines, j);
         Array_list_ptr tokens = str_split(left_trim(line), ' ');
         for (int i = 0; i < tokens->size; i++){
             char* word = array_list_get(tokens, i);
@@ -66,8 +63,8 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
             }
         }
         free_array_list(tokens, free);
-        input = fgets(line, MAX_LINE_LENGTH, input_file);
     }
+    free_array_list(lines, free);
     if (sentence_word_count(new_sentence) > 0){
         corpus_add_sentence2(result, new_sentence);
     }
