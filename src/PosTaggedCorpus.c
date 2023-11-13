@@ -106,7 +106,7 @@ Sentence_ptr corpus_get_sentence3(Pos_tagged_corpus_ptr corpus, int index) {
 }
 
 void free_pos_tagged_corpus(Pos_tagged_corpus_ptr corpus) {
-    free_array_list(corpus->sentences, (void (*)(void *)) free_sentence);
+    free_array_list(corpus->sentences, (void (*)(void *)) free_pos_tagged_sentence);
     free_counter_hash_map(corpus->word_list);
     free_counter_hash_map(corpus->tag_list);
     free(corpus);
@@ -119,4 +119,9 @@ Array_list_ptr get_word_list2(Sentence_ptr sentence) {
         array_list_add(result, word->name);
     }
     return result;
+}
+
+void free_pos_tagged_sentence(Sentence_ptr sentence) {
+    free_array_list(sentence->words, (void (*)(void *)) free_pos_tagged_word);
+    free(sentence);
 }

@@ -27,6 +27,8 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus2();
 
 void free_pos_tagged_corpus(Pos_tagged_corpus_ptr corpus);
 
+void free_pos_tagged_sentence(Sentence_ptr sentence);
+
 void sentence_add_word2(Sentence_ptr sentence, Pos_tagged_word_ptr word);
 
 void corpus_add_sentence2(Pos_tagged_corpus_ptr corpus, Sentence_ptr sentence);
