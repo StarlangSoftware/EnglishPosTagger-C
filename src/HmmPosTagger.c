@@ -48,7 +48,7 @@ Sentence_ptr pos_tag_hmm(Sentence_ptr sentence, void *model) {
     Array_list_ptr tag_list = viterbi_hmm1(hmm, get_word_list2(sentence));
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence_word_count(sentence); i++){
-        char* name = sentence_get_word(sentence, i)->name;
+        char* name = sentence_get_word(sentence, i);
         char* tag = array_list_get(tag_list, i);
         sentence_add_word2(result, create_pos_tagged_word(name, tag));
     }

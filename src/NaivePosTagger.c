@@ -52,7 +52,7 @@ Sentence_ptr pos_tag_naive(Sentence_ptr sentence, void *model) {
     Hash_map_ptr max_map = model;
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence_word_count(sentence); i++){
-        char* name = sentence_get_word(sentence, i)->name;
+        char* name = sentence_get_word(sentence, i);
         char* tag = hash_map_get(max_map, name);
         sentence_add_word2(result, create_pos_tagged_word(name, tag));
     }
