@@ -2,8 +2,8 @@
 // Created by Olcay Taner YILDIZ on 29.09.2023.
 //
 
-#include <stdlib.h>
 #include <Hmm1.h>
+#include <Memory/Memory.h>
 #include "HmmPosTagger.h"
 
 /**
@@ -14,8 +14,8 @@
  */
 void *train_hmm_pos_tagger(Pos_tagged_corpus_ptr corpus) {
     int sentence_count = corpus->sentences->size;
-    Array_list_ptr* emitted_symbols = malloc(sentence_count * sizeof(Array_list_ptr));
-    Array_list_ptr* all_words = malloc(sentence_count * sizeof(Array_list_ptr));
+    Array_list_ptr* emitted_symbols = malloc_(sentence_count * sizeof(Array_list_ptr), "train_hmm_pos_tagger_1");
+    Array_list_ptr* all_words = malloc_(sentence_count * sizeof(Array_list_ptr), "train_hmm_pos_tagger_2");
     for (int i = 0; i < sentence_count; i++){
         emitted_symbols[i] = create_array_list();
         all_words[i] = create_array_list();
@@ -48,9 +48,9 @@ Sentence_ptr pos_tag_hmm(Sentence_ptr sentence, void *model) {
     Array_list_ptr tag_list = viterbi_hmm1(hmm, get_word_list2(sentence));
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence_word_count(sentence); i++){
-        char* name = sentence_get_word(sentence, i);
+        Pos_tagged_word_ptr word = array_list_get(sentence->words, i);
         char* tag = array_list_get(tag_list, i);
-        sentence_add_word2(result, create_pos_tagged_word(name, tag));
+        sentence_add_word2(result, create_pos_tagged_word(word->name, tag));
     }
     free_array_list(tag_list, NULL);
     return result;

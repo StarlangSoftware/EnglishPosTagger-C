@@ -34,7 +34,7 @@ void *train_naive_pos_tagger(Pos_tagged_corpus_ptr corpus) {
         char* name = array_list_get(list, i);
         counter_hash_map = hash_map_get(map, name);
         char* tag = max_counter_hash_map(counter_hash_map);
-        hash_map_insert(max_map, name, tag);
+        hash_map_insert(max_map, clone_string(name), clone_string(tag));
     }
     free_array_list(list, NULL);
     free_hash_map(map, (void (*)(void *)) free_counter_hash_map);
@@ -52,9 +52,9 @@ Sentence_ptr pos_tag_naive(Sentence_ptr sentence, void *model) {
     Hash_map_ptr max_map = model;
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence_word_count(sentence); i++){
-        char* name = sentence_get_word(sentence, i);
-        char* tag = hash_map_get(max_map, name);
-        sentence_add_word2(result, create_pos_tagged_word(name, tag));
+        Pos_tagged_word_ptr word = array_list_get(sentence->words, i);
+        char* tag = hash_map_get(max_map, word->name);
+        sentence_add_word2(result, create_pos_tagged_word(word->name, tag));
     }
     return result;
 }

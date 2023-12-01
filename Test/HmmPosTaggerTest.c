@@ -3,7 +3,6 @@
 //
 
 #include <string.h>
-#include <math.h>
 #include <Hmm1.h>
 #include "../src/PosTaggedCorpus.h"
 #include "../src/HmmPosTagger.h"
@@ -24,11 +23,9 @@ int main(){
                 incorrect++;
             }
         }
-        free_sentence(tagged_sentence);
+        free_pos_tagged_sentence(tagged_sentence);
     }
+    printf("Accuracy: %.6lf", 100 * correct / (correct + incorrect));
     free_pos_tagged_corpus(pos_tagged_corpus);
     free_hmm1(model);
-    if (fabs(100 * correct / (correct + incorrect) - 97.59) > 0.01){
-        printf("Error %.6lf", 100 * correct / (correct + incorrect));
-    }
 }

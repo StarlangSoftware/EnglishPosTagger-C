@@ -2,12 +2,11 @@
 // Created by Olcay Taner YILDIZ on 27.09.2023.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <FileUtils.h>
 #include <string.h>
 #include <StringUtils.h>
 #include <Sentence.h>
+#include <Memory/Memory.h>
 #include "PosTaggedCorpus.h"
 #include "PosTaggedWord.h"
 
@@ -38,35 +37,41 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
                         if (strchr(candidate, '+') != NULL){
                             Array_list_ptr short_tag_list2 = str_split(candidate, '+');
                             short_tag = str_copy(short_tag, array_list_get(short_tag_list2, 0));
+                            free_array_list(short_tag_list2, free_);
                         } else {
                             short_tag = str_copy(short_tag, candidate);
                         }
-                        free_array_list(short_tag_list, free);
+                        free_array_list(short_tag_list, free_);
                     } else {
                         if (strchr(tag, '+') != NULL){
                             Array_list_ptr short_tag_list = str_split(tag, '+');
                             short_tag = str_copy(short_tag, array_list_get(short_tag_list, 0));
-                            free_array_list(short_tag_list, free);
+                            free_array_list(short_tag_list, free_);
                         } else {
                             short_tag = str_copy(short_tag, tag);
                         }
                     }
                     put_counter_hash_map(result->tag_list, short_tag);
                     Pos_tagged_word_ptr new_word = create_pos_tagged_word(name, short_tag);
+                    if (count_counter_hash_map(result->tag_list, short_tag) > 1){
+                        free_(short_tag);
+                    }
                     sentence_add_word2(new_sentence, new_word);
                     if (strcmp(tag, ".") == 0){
                         corpus_add_sentence2(result, new_sentence);
                         new_sentence = create_sentence();
                     }
                 }
-                free_array_list(items, free);
+                free_array_list(items, free_);
             }
         }
-        free_array_list(tokens, free);
+        free_array_list(tokens, free_);
     }
-    free_array_list(lines, free);
+    free_array_list(lines, free_);
     if (sentence_word_count(new_sentence) > 0){
         corpus_add_sentence2(result, new_sentence);
+    } else {
+        free_sentence(new_sentence);
     }
     return result;
 }
@@ -76,7 +81,7 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
  * the corpus, and all possible tags.
  */
 Pos_tagged_corpus_ptr create_pos_tagged_corpus2() {
-    Pos_tagged_corpus_ptr result = malloc(sizeof(Pos_tagged_corpus));
+    Pos_tagged_corpus_ptr result = malloc_(sizeof(Pos_tagged_corpus), "create_pos_tagged_corpus2");
     result->sentences = create_array_list();
     result->word_list = create_counter_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
                                                 (int (*)(const void *, const void *)) compare_string);
@@ -108,8 +113,8 @@ Sentence_ptr corpus_get_sentence3(Pos_tagged_corpus_ptr corpus, int index) {
 void free_pos_tagged_corpus(Pos_tagged_corpus_ptr corpus) {
     free_array_list(corpus->sentences, (void (*)(void *)) free_pos_tagged_sentence);
     free_counter_hash_map(corpus->word_list);
-    free_counter_hash_map(corpus->tag_list);
-    free(corpus);
+    free_counter_hash_map2(corpus->tag_list, free_);
+    free_(corpus);
 }
 
 Array_list_ptr get_word_list2(Sentence_ptr sentence) {
@@ -123,5 +128,5 @@ Array_list_ptr get_word_list2(Sentence_ptr sentence) {
 
 void free_pos_tagged_sentence(Sentence_ptr sentence) {
     free_array_list(sentence->words, (void (*)(void *)) free_pos_tagged_word);
-    free(sentence);
+    free_(sentence);
 }

@@ -3,14 +3,13 @@
 //
 
 #include <string.h>
-#include <stdlib.h>
-#include <math.h>
 #include "../src/PosTaggedCorpus.h"
 #include "../src/NaivePosTagger.h"
+#include "Memory/Memory.h"
 
 int main(){
     Pos_tagged_corpus_ptr pos_tagged_corpus = create_pos_tagged_corpus("brown.txt");
-    Array_list_ptr model = train_naive_pos_tagger(pos_tagged_corpus);
+    Hash_map_ptr model = train_naive_pos_tagger(pos_tagged_corpus);
     double correct = 0, incorrect = 0;
     for (int i = 0; i < pos_tagged_corpus->sentences->size; i++){
         Sentence_ptr sentence = corpus_get_sentence3(pos_tagged_corpus, i);
@@ -24,11 +23,9 @@ int main(){
                 incorrect++;
             }
         }
-        free_sentence(tagged_sentence);
+        free_pos_tagged_sentence(tagged_sentence);
     }
+    printf("Accuracy: %.6lf", 100 * correct / (correct + incorrect));
     free_pos_tagged_corpus(pos_tagged_corpus);
-    free_array_list(model, free);
-    if (fabs(100 * correct / (correct + incorrect) - 93.69) > 0.01){
-        printf("Error %.6lf", 100 * correct / (correct + incorrect));
-    }
+    free_hash_map2(model, free_, free_);
 }

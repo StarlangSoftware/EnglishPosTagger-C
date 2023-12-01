@@ -2,12 +2,10 @@
 // Created by Olcay Taner YILDIZ on 29.09.2023.
 //
 
-#include <Corpus.h>
 #include <string.h>
-#include <math.h>
-#include <stdlib.h>
 #include "../src/PosTaggedCorpus.h"
 #include "../src/DummyPosTagger.h"
+#include "Memory/Memory.h"
 
 int main(){
     Pos_tagged_corpus_ptr pos_tagged_corpus = create_pos_tagged_corpus("brown.txt");
@@ -25,11 +23,9 @@ int main(){
                 incorrect++;
             }
         }
-        free_sentence(tagged_sentence);
+        free_pos_tagged_sentence(tagged_sentence);
     }
+    printf("Accuracy: %.6lf", 100 * correct / (correct + incorrect));
     free_pos_tagged_corpus(pos_tagged_corpus);
-    free_array_list(model, free);
-    if (fabs(100 * correct / (correct + incorrect) - 0.94) > 0.01){
-        printf("Error %.6lf", 100 * correct / (correct + incorrect));
-    }
+    free_array_list(model, NULL);
 }

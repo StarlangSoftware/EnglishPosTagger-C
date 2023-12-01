@@ -28,7 +28,8 @@ Sentence_ptr pos_tag_dummy(Sentence_ptr sentence, void* model) {
     for (int i = 0; i < sentence_word_count(sentence); i++){
         int index = random() % tag_list->size;
         char* tag = array_list_get(tag_list, index);
-        sentence_add_word2(result, create_pos_tagged_word(sentence_get_word(sentence, i), tag));
+        Pos_tagged_word_ptr word = array_list_get(sentence->words, i);
+        sentence_add_word2(result, create_pos_tagged_word(word->name, tag));
     }
     return result;
 }
