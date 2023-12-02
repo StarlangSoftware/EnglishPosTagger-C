@@ -26,14 +26,27 @@ void *train_hmm_pos_tagger(Pos_tagged_corpus_ptr corpus) {
             array_list_add(emitted_symbols[i], word->tag);
         }
     }
-    return create_hmm1(create_hash_set_of_string2(get_tag_list(corpus)),
+    Array_list_ptr tag_list = get_tag_list(corpus);
+    Hash_set_ptr tag_set = create_hash_set_of_string2(tag_list);
+    free_array_list(tag_list, NULL);
+    Hmm1_ptr hmm = create_hmm1(tag_set,
                                sentence_count,
                                emitted_symbols,
                                all_words,
                                (unsigned int (*)(const void *, int)) hash_function_string,
                                (int (*)(const void *, const void *)) compare_string,
+                               (void *(*)(void *)) clone_string,
                                (unsigned int (*)(const void *, int)) hash_function_string,
-                               (int (*)(const void *, const void *)) compare_string);
+                               (int (*)(const void *, const void *)) compare_string,
+                               (void *(*)(void *)) clone_string);
+    free_hash_set(tag_set, NULL);
+    for (int i = 0; i < sentence_count; i++){
+        free_array_list(emitted_symbols[i], NULL);
+        free_array_list(all_words[i], NULL);
+    }
+    free_(emitted_symbols);
+    free_(all_words);
+    return hmm;
 }
 
 /**
@@ -45,7 +58,9 @@ void *train_hmm_pos_tagger(Pos_tagged_corpus_ptr corpus) {
  */
 Sentence_ptr pos_tag_hmm(Sentence_ptr sentence, void *model) {
     Hmm1_ptr hmm = model;
-    Array_list_ptr tag_list = viterbi_hmm1(hmm, get_word_list2(sentence));
+    Array_list_ptr word_list = get_word_list2(sentence);
+    Array_list_ptr tag_list = viterbi_hmm1(hmm, word_list);
+    free_array_list(word_list, NULL);
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence_word_count(sentence); i++){
         Pos_tagged_word_ptr word = array_list_get(sentence->words, i);
