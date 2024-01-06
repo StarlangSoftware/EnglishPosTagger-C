@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.23)
-project(PosTagger C)
+project(PosTagger)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_FLAGS "-O3")
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-O3")
+find_package(corpus_c REQUIRED)
+find_package(hmm_c REQUIRED)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
-add_library(PosTagger src/PosTaggedWord.c src/PosTaggedWord.h src/PosTaggedCorpus.c src/PosTaggedCorpus.h src/DummyPosTagger.c src/DummyPosTagger.h src/NaivePosTagger.c src/NaivePosTagger.h src/HmmPosTagger.c src/HmmPosTagger.h)
-target_link_libraries(PosTagger ${CONAN_LIBS})
+add_library(PosTagger PosTaggedWord.c PosTaggedWord.h PosTaggedCorpus.c PosTaggedCorpus.h DummyPosTagger.c DummyPosTagger.h NaivePosTagger.c NaivePosTagger.h HmmPosTagger.c HmmPosTagger.h)
+target_link_libraries(PosTagger corpus_c::corpus_c hmm_c::hmm_c)
