@@ -90,6 +90,11 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus2() {
     return result;
 }
 
+/**
+ * Adds a new sentence to pos tagged corpus.
+ * @param corpus Pos tagged corpus to add a sentence.
+ * @param sentence Sentence to add.
+ */
 void corpus_add_sentence2(Pos_tagged_corpus_ptr corpus, Sentence_ptr sentence) {
     array_list_add(corpus->sentences, sentence);
     for (int i = 0; i < sentence->words->size; i++) {
@@ -98,18 +103,39 @@ void corpus_add_sentence2(Pos_tagged_corpus_ptr corpus, Sentence_ptr sentence) {
     }
 }
 
+/**
+ * Adds a new word to a sentence
+ * @param sentence Sentence to which a new word will be added
+ * @param word Word to be added
+ */
 void sentence_add_word2(Sentence_ptr sentence, Pos_tagged_word_ptr word) {
     array_list_add(sentence->words, word);
 }
 
+/**
+ * Returns the pos tag list used for tagging.
+ * @param corpus Corpus from which tag list was created.
+ * @return Pos tag list used to tag the words in the corpus
+ */
 Array_list_ptr get_tag_list(Pos_tagged_corpus_ptr corpus) {
     return key_list(corpus->tag_list->map);
 }
 
+/**
+ * Returns the sentence at position index in the given corpus
+ * @param corpus Corpus
+ * @param index Position of the sentence
+ * @return Sentence at position index in the given corpus
+ */
 Sentence_ptr corpus_get_sentence3(Pos_tagged_corpus_ptr corpus, int index) {
     return array_list_get(corpus->sentences, index);
 }
 
+/**
+ * Frees memory allocated for the corpus. Deallocates memory for sentences array list, word_list and tag_list
+ * hash maps.
+ * @param corpus Corpus to be deallocated.
+ */
 void free_pos_tagged_corpus(Pos_tagged_corpus_ptr corpus) {
     free_array_list(corpus->sentences, (void (*)(void *)) free_pos_tagged_sentence);
     free_counter_hash_map(corpus->word_list);
@@ -117,6 +143,11 @@ void free_pos_tagged_corpus(Pos_tagged_corpus_ptr corpus) {
     free_(corpus);
 }
 
+/**
+ * Returns the pos tagged words in the given sentence.
+ * @param sentence Sentence containing the pos tagged words.
+ * @return Array list of pos tagged words in the sentence.
+ */
 Array_list_ptr get_word_list2(Sentence_ptr sentence) {
     Array_list_ptr result = create_array_list();
     for (int i = 0; i < sentence->words->size; i++){
@@ -126,6 +157,10 @@ Array_list_ptr get_word_list2(Sentence_ptr sentence) {
     return result;
 }
 
+/**
+ * Frees memory allocated for the sentence. Deallocates memory for words list.
+ * @param sentence Sentence to be deallocated.
+ */
 void free_pos_tagged_sentence(Sentence_ptr sentence) {
     free_array_list(sentence->words, (void (*)(void *)) free_pos_tagged_word);
     free_(sentence);

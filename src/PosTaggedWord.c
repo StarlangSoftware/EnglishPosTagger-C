@@ -2,7 +2,6 @@
 // Created by Olcay Taner YILDIZ on 27.09.2023.
 //
 
-#include <stdlib.h>
 #include <StringUtils.h>
 #include "PosTaggedWord.h"
 #include "Memory/Memory.h"
