@@ -6,7 +6,7 @@ from conan.tools.files import copy
 
 
 class PosTaggerConan(ConanFile):
-    name = "n_gram_c"
+    name = "pos_tagger_c"
     version = "1.0.0"
     requires = ["corpus_c/1.0.0",
                 "hmm_c/1.0.0",

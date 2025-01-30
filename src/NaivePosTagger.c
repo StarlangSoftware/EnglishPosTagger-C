@@ -46,6 +46,7 @@ void *train_naive_pos_tagger(Pos_tagged_corpus_ptr corpus) {
  * possible tag list for that word.
  *
  * @param sentence Sentence to be tagged.
+ * @param model Model of the pos tagger.
  * @return Annotated (tagged) sentence.
  */
 Sentence_ptr pos_tag_naive(Sentence_ptr sentence, void *model) {

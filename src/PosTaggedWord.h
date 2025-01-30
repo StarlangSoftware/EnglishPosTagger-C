@@ -14,7 +14,7 @@ typedef struct pos_tagged_word Pos_tagged_word;
 
 typedef Pos_tagged_word *Pos_tagged_word_ptr;
 
-Pos_tagged_word_ptr create_pos_tagged_word(char* name, char* tag);
+Pos_tagged_word_ptr create_pos_tagged_word(const char* name, const char* tag);
 
 void free_pos_tagged_word(Pos_tagged_word_ptr pos_tagged_word);
 

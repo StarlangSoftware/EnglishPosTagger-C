@@ -14,7 +14,7 @@
  * Another constructor of PosTaggedCorpus which takes a fileName of the corpus as an input, reads the
  * corpus from that file.
  *
- * @param fileName Name of the corpus file.
+ * @param file_name Name of the corpus file.
  */
 Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
     Sentence_ptr new_sentence = create_sentence();

@@ -54,6 +54,7 @@ void *train_hmm_pos_tagger(Pos_tagged_corpus_ptr corpus) {
  * most possible state sequence for the given sentence.
  *
  * @param sentence Sentence to be tagged.
+ * @param model Model of the pos tagger.
  * @return Annotated (tagged) sentence.
  */
 Sentence_ptr pos_tag_hmm(Sentence_ptr sentence, void *model) {
