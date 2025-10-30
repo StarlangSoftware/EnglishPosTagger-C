@@ -81,7 +81,7 @@ Pos_tagged_corpus_ptr create_pos_tagged_corpus(const char *file_name) {
  * the corpus, and all possible tags.
  */
 Pos_tagged_corpus_ptr create_pos_tagged_corpus2() {
-    Pos_tagged_corpus_ptr result = malloc_(sizeof(Pos_tagged_corpus), "create_pos_tagged_corpus2");
+    Pos_tagged_corpus_ptr result = malloc_(sizeof(Pos_tagged_corpus));
     result->sentences = create_array_list();
     result->word_list = create_counter_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
                                                 (int (*)(const void *, const void *)) compare_string);

@@ -12,7 +12,7 @@
  * @param tag Tag of the word
  */
 Pos_tagged_word_ptr create_pos_tagged_word(const char *name, const char *tag) {
-    Pos_tagged_word_ptr result = malloc_(sizeof(Pos_tagged_word), "create_pos_tagged_word");
+    Pos_tagged_word_ptr result = malloc_(sizeof(Pos_tagged_word));
     result->name = str_copy(result->name, name);
     result->tag = str_copy(result->tag, tag);
     return result;

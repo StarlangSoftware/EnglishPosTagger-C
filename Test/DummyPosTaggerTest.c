@@ -8,6 +8,7 @@
 #include "Memory/Memory.h"
 
 int main(){
+    start_large_memory_check();
     Pos_tagged_corpus_ptr pos_tagged_corpus = create_pos_tagged_corpus("brown.txt");
     Array_list_ptr model = train_dummy_pos_tagger(pos_tagged_corpus);
     double correct = 0, incorrect = 0;
@@ -28,4 +29,5 @@ int main(){
     printf("Accuracy: %.6lf", 100 * correct / (correct + incorrect));
     free_pos_tagged_corpus(pos_tagged_corpus);
     free_array_list(model, NULL);
+    end_memory_check();
 }
